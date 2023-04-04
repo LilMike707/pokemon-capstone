@@ -3,12 +3,8 @@ from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
 
+
 bcrypt = Bcrypt()
-
-def connect_db(app):
-    db.app = app
-    db.init_app(app)
-
 
 class User(db.Model):
 
@@ -34,4 +30,9 @@ class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     card_id = db.Column(db.Integer, nullable=False)
+
+
+def connect_db(app):
+    db.app = app
+    db.init_app(app)
     
