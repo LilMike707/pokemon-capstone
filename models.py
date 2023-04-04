@@ -11,16 +11,24 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.Text, nullable=False)
+    password = db.Column(db.Text, nullable=False)
 
     likes = db.relationship('Like', backref = 'user', lazy=True)
 
-    def set_password(self, password):
-        return bcrypt.generate_password_hash(password).decode('utf-8')
+    # def set_password(password):
+    #     return bcrypt.generate_password_hash(cls, password).decode('utf-8')
     
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password, password)
+    # def check_password(password):
+    #     return bcrypt.check_password_hash(self.password, password)
+    @classmethod 
+    def register(cls, username, password):
+        print(f'username is {username}')
+        hashed = bcrypt.generate_password_hash(password)
+
+        hash_str = hashed.decode("utf8")
+
+        return cls(username=username, password=hash_str) 
 
 
 class Like(db.Model):
