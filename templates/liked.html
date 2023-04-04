@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Liked Cards for a User Go Here</h1>
+    {% for like in likes %}
+        <h1>{{like.card_id}}</h1>
+    {% endfor %}
+    <h1>{{likes}}</h1>
 {% endblock %}

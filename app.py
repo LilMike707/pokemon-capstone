@@ -17,6 +17,7 @@ db.create_all()
 
 # toolbar = DebugToolbarExtension(app)
 
+
 @app.route('/')
 def homepage():
     return redirect('/home')
@@ -24,15 +25,34 @@ def homepage():
 
 @app.route('/home')
 def show_home():
-    return render_template('home.html')
+    if 'curr_user' in session:
+        id = session['curr_user']
+        user = User.query.filter_by(id=id).first()
+        return render_template('home.html', user=user)
+    else:
+        user = ''
+        return render_template('home.html', user=user)
 
-@app.route('/login')
+
+@app.route('/login', methods=['GET', 'POST'])
 def show_login():
     form = LoginForm()
 
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        user = User.authenticate(username, password)
+        if user:
+            session['curr_user'] = user.id
+            flash('You Logged In!')
+            return redirect('/home')
+        else:
+            return redirect('/liked_cards')
     return render_template('login.html', form=form)
 
-@app.route('/register', methods=['GET','POST'])
+
+@app.route('/register', methods=['GET', 'POST'])
 def show_register():
     form = RegisterForm()
 
@@ -46,11 +66,12 @@ def show_register():
 
         return redirect('/home')
 
-
-
     return render_template('register.html', form=form)
 
-@app.route('/liked-cards')
-def show_likes():
 
-    return render_template('liked.html')
+@app.route('/<int:id>/likes')
+def show_likes(id):
+    # if 'curr_user' in session:
+    # user = User.query.filter_by(id=user_id).first()
+    likes = Like.query.filter_by(user_id=id).all()  # This might not work?
+    return render_template('liked.html', likes=likes)
