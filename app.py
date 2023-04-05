@@ -11,6 +11,7 @@ app.config["SQLALCHEMY_ECHO"] = True
 app.config["SECRET_KEY"] = "mikeisabeast"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
+API_KEY = '86d009f1-34fa-4d94-9888-7eae05f5fc1f'
 
 connect_db(app)
 db.create_all()
@@ -75,3 +76,8 @@ def show_likes(id):
     # user = User.query.filter_by(id=user_id).first()
     likes = Like.query.filter_by(user_id=id).all()  # This might not work?
     return render_template('liked.html', likes=likes)
+
+@app.route('/index')
+def show_index():
+
+    return render_template('index.html')
