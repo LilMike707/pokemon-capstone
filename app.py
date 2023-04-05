@@ -77,7 +77,8 @@ def show_likes(id):
     likes = Like.query.filter_by(user_id=id).all()  # This might not work?
     return render_template('liked.html', likes=likes)
 
+
 @app.route('/index')
 def show_index():
-
+    test = test
     return render_template('index.html')
