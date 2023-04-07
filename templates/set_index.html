@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for set in sets %}
+        <div>
+            <div><a href="/index/{{set.id}}">{{set.name}}</a></div>
+            <div><img src="{{set.images.logo}}" style="max-width:100px"></div>
+        </div>
+    {% endfor %}
+{% endblock %}

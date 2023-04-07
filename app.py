@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, session, flash
 # from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Like
 from forms import LoginForm, RegisterForm
+import requests, random
 
 app = Flask(__name__)
 app.app_context().push()
@@ -12,6 +13,8 @@ app.config["SECRET_KEY"] = "mikeisabeast"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 API_KEY = '86d009f1-34fa-4d94-9888-7eae05f5fc1f'
+BASE_URL = 'https://api.pokemontcg.io/v2/'
+
 
 connect_db(app)
 db.create_all()
@@ -78,7 +81,51 @@ def show_likes(id):
     return render_template('liked.html', likes=likes)
 
 
+def get_setlist():
+    url = f'{BASE_URL}sets'
+    sets = []
+    headers = {'x-api-key':API_KEY}
+    response = requests.get(url, headers=headers)
+    raw_data = response.json()
+    data = raw_data['data']
+    for card_set in data:
+        name = card_set['name']
+        id = card_set['id']
+        sets.append({
+            'id':id,
+            'name':name
+        })
+    return sets[:14]
+
+
+def get_setlist_index():
+    url = f'{BASE_URL}sets'
+    sets = []
+    headers = {'x-api-key':API_KEY}
+    response = requests.get(url, headers=headers)
+    raw_data = response.json()
+    data = raw_data['data']
+    for card_set in data:
+        sets.append(card_set)
+    return sets[:14]
+
 @app.route('/index')
 def show_index():
-    test = test
-    return render_template('index.html')
+    sets = get_setlist_index()
+    return render_template('set_index.html', sets=sets)
+
+
+@app.route('/index/<set_id>')
+def show_set(set_id):
+    sets = get_setlist()
+    url = f'{BASE_URL}cards?q=set.id:{set_id}'
+    cards = []
+    headers = {'x-api-key':API_KEY}
+    response = requests.get(url, headers=headers)
+    raw_data = response.json()
+    data = raw_data['data']
+    for card in data:
+        cards.append(card)
+    random_cards = random.sample(cards,50)
+    return render_template('index.html', sets=sets, cards=random_cards)    
+
