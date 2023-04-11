@@ -1,0 +1,72 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 400px;
+  margin: 20px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-rarity {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card-price {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card img {
+  max-width: 100%;
+  max-height: 70%;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.like-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  background-color: #eee;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.like-button::before {
+  content: "♥";
+  font-size: 20px;
+  color: #ccc;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+  .sets-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .sets-container p {
+    margin: 0 10px;
+  }

@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for like in likes %}
-        <h1>{{like.card_id}}</h1>
-    {% endfor %}
+<div>
+    <div class="card-container">
+        {% for card in cards %}
+          <div id="{{card.id}}" class="card">
+            <div class="card-name">{{ card.name }}</div>
+            <div class="card-rarity">{{ card.rarity }}</div>
+            <div class="card-price">${{ card.price }}</div>
+            <img src="{{ card.image }}" alt="">
+            <div class="like-button"></div>
+          </div>
+        {% endfor %}
+      </div>
+</div>
 {% endblock %}

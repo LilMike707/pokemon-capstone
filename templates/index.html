@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
+<div class="sets-container">
     {% for set in sets %}
-        <p><a href="/index/{{set.id}}">{{set.name}}</a></p>
+      <p><a href="/index/{{set.id}}">{{set.name}}</a></p>
     {% endfor %}
-</div>
+  </div>
 <div>
-    {% for card in cards %}
-        <div>
-            <div>Id = {{card.id}}</div>
-            <div>Name = {{card.name}}</div>
-            <div>Rarity = {{card.rarity}}</div>
-            <div>CardMarket Link = <a href="{{card.cardmarket.url}}">Link</a></div>
-            <div>Average Market Sell Price = {{card.cardmarket.prices.averageSellPrice}}</div>
-            <div><img src="{{card.images.small}}" alt=""></div>
-        </div>
-    {% endfor %}
+    <div class="card-container">
+        {% for card in cards %}
+          <div id="{{card.id}}" class="card">
+            <div class="card-name">{{ card.name }}</div>
+            <div class="card-rarity">{{ card.rarity }}</div>
+            <div class="card-price">${{ card.cardmarket.prices.averageSellPrice }}</div>
+            <img src="{{ card.images.small }}" alt="">
+            <div class="like-button"></div>
+          </div>
+        {% endfor %}
+      </div>
 </div>
 {% endblock %}

@@ -27,11 +27,11 @@ bcrypt = Bcrypt()
 # db.session.commit()
 
 # create likes associated with each user
-like1 = Like(user_id=1, card_id='xy1-23')
-like2 = Like(user_id=1, card_id='xy1-25')
-like3 = Like(user_id=1, card_id='xy1-21')
-like4 = Like(user_id=1, card_id='xy1-26')
-like5 = Like(user_id=1, card_id='xy1-27')
+like1 = Like(user_id=1, card_id='base1-23')
+like2 = Like(user_id=1, card_id='base1-25')
+like3 = Like(user_id=1, card_id='base1-21')
+like4 = Like(user_id=1, card_id='base1-26')
+like5 = Like(user_id=1, card_id='base1-27')
 
 # add likes to session
 db.session.add(like1)

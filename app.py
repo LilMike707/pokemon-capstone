@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, flash
+from flask import Flask, render_template, redirect, session, flash, request, jsonify
 # from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Like
 from forms import LoginForm, RegisterForm
@@ -75,10 +75,24 @@ def show_register():
 
 @app.route('/<int:id>/likes')
 def show_likes(id):
-    # if 'curr_user' in session:
-    # user = User.query.filter_by(id=user_id).first()
-    likes = Like.query.filter_by(user_id=id).all()  # This might not work?
-    return render_template('liked.html', likes=likes)
+    likes = Like.query.filter_by(user_id=id).all()
+
+    cards = []
+
+    for like in likes:
+        url = f'{BASE_URL}cards/{like.card_id}'
+        headers = {'x-api-key':API_KEY}
+        response = requests.get(url, headers=headers)
+        raw_data = response.json()
+        data = raw_data['data']
+        cards.append({
+            'id':data['id'],
+            'name':data['name'],
+            'image':data['images']['small'],
+            'rarity':data['rarity'],
+            'price': data['cardmarket']['prices']['averageSellPrice']
+})
+    return render_template('liked.html', cards=cards)
 
 
 def get_setlist():
@@ -129,3 +143,24 @@ def show_set(set_id):
     random_cards = random.sample(cards,50)
     return render_template('index.html', sets=sets, cards=random_cards)    
 
+@app.route('/<int:id>')
+def show_user(id):
+    user = User.query.filter_by(id=id).first()
+    return render_template('profile.html', user=user)
+
+@app.route('/addlike', methods=['POST'])
+def add_like():
+    print('ADSDASDASDASDASD')
+    data = request.get_json()
+    card_id = data.get('card_id')
+    if 'curr_user' in session:
+        user_id = session['curr_user']
+    else: 
+        return jsonify({'message': 'Nope.'}), 500
+    print(f'Card Id = {card_id}, User Id = {user_id}')
+    like = Like(user_id=user_id, card_id=card_id)
+
+    db.session.add(like)
+    db.session.commit()
+
+    return jsonify({'message': 'Like added to database.'}), 200
