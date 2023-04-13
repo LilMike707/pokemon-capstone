@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block js %}
+  let likes = '{{like_ids}}'
+{% endblock %}
+
 {% block content %}
 <div class="sets-container">
     {% for set in sets %}
@@ -11,7 +15,11 @@
         {% for card in cards %}
           <div id="{{card.id}}" class="card">
             <div class="card-name">{{ card.name }}</div>
+            {% if card.rarity %}
             <div class="card-rarity">{{ card.rarity }}</div>
+            {% else %}
+            <div class="card-rarity">Common</div>
+            {% endif %}
             <div class="card-price">${{ card.cardmarket.prices.averageSellPrice }}</div>
             <img src="{{ card.images.small }}" alt="">
             <div class="like-button"></div>

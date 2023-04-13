@@ -73,9 +73,33 @@ def show_register():
     return render_template('register.html', form=form)
 
 
+# @app.route('/<int:id>/likes')
+# def show_likes(id):
+#     likes = Like.query.filter_by(user_id=id).all()
+
+#     cards = []
+
+#     for like in likes:
+#         url = f'{BASE_URL}cards/{like.card_id}'
+#         headers = {'x-api-key':API_KEY}
+#         response = requests.get(url, headers=headers)
+#         raw_data = response.json()
+#         data = raw_data['data']
+#         cards.append({
+#             'id':data['id'],
+#             'name':data['name'],
+#             'image':data['images']['small'],
+#             'rarity':data['rarity'],
+#             'price': data['cardmarket']['prices']['averageSellPrice']
+# })
+#     return render_template('liked.html', cards=cards)
+
+
 @app.route('/<int:id>/likes')
 def show_likes(id):
     likes = Like.query.filter_by(user_id=id).all()
+    like_ids = [like.card_id for like in likes]
+
 
     cards = []
 
@@ -85,14 +109,29 @@ def show_likes(id):
         response = requests.get(url, headers=headers)
         raw_data = response.json()
         data = raw_data['data']
+        
+        # Check if the 'rarity' field is present in the data
+        if 'rarity' in data:
+            rarity = data['rarity']
+        else:
+            rarity = 'Common'
+        
+        # Check if the 'cardmarket' and 'averageSellPrice' fields are present in the data
+        if 'cardmarket' in data and 'prices' in data['cardmarket'] and 'averageSellPrice' in data['cardmarket']['prices']:
+            price = data['cardmarket']['prices']['averageSellPrice']
+        else:
+            price = None
+        
+        # Append the card information to the list of cards if both 'rarity' and 'price' are present
         cards.append({
             'id':data['id'],
             'name':data['name'],
             'image':data['images']['small'],
-            'rarity':data['rarity'],
-            'price': data['cardmarket']['prices']['averageSellPrice']
-})
-    return render_template('liked.html', cards=cards)
+            'rarity':rarity,
+            'price': price
+        })
+    
+    return render_template('liked.html', cards=cards, like_ids=like_ids)
 
 
 def get_setlist():
@@ -131,6 +170,15 @@ def show_index():
 
 @app.route('/index/<set_id>')
 def show_set(set_id):
+
+
+
+    if 'curr_user' in session:
+        user_id = session['curr_user']
+        likes = Like.query.filter_by(user_id=user_id).all()
+        like_ids = [like.card_id for like in likes]
+
+
     sets = get_setlist()
     url = f'{BASE_URL}cards?q=set.id:{set_id}'
     cards = []
@@ -140,8 +188,8 @@ def show_set(set_id):
     data = raw_data['data']
     for card in data:
         cards.append(card)
-    random_cards = random.sample(cards,50)
-    return render_template('index.html', sets=sets, cards=random_cards)    
+    random_cards = random.sample(cards, min(len(cards), 50))
+    return render_template('index.html', sets=sets, cards=random_cards, like_ids=like_ids)    
 
 @app.route('/<int:id>')
 def show_user(id):
@@ -150,12 +198,11 @@ def show_user(id):
 
 @app.route('/addlike', methods=['POST'])
 def add_like():
-    print('ADSDASDASDASDASD')
     data = request.get_json()
     card_id = data.get('card_id')
     if 'curr_user' in session:
         user_id = session['curr_user']
-    else: 
+    else:
         return jsonify({'message': 'Nope.'}), 500
     print(f'Card Id = {card_id}, User Id = {user_id}')
     like = Like(user_id=user_id, card_id=card_id)
@@ -164,3 +211,26 @@ def add_like():
     db.session.commit()
 
     return jsonify({'message': 'Like added to database.'}), 200
+
+
+
+@app.route('/deletelike', methods=['POST'])
+def delete_like():
+    user_id = session['curr_user']
+    data = request.get_json()
+    card_id = data.get('card_id')
+
+    like = Like.query.filter_by(user_id=user_id, card_id=card_id).first()
+    if like:
+        db.session.delete(like)
+        db.session.commit()
+        return jsonify({'message': 'Like deleted from database.'}), 200
+    else:
+        return jsonify({'message': 'Like not found in database.'}), 404
+
+
+@app.route('/logout')
+def logout():
+    session.pop('curr_user', None)
+    flash('You Logged Out!')
+    return redirect('/home')

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Welcome To This Bullshit!</h1>
-    <h1>{{user.username}}</h1>
+    <h1 id="hometitle">Welcome to the Pokemon TCG Index!</h1>
+    {% if 'curr_user' in session %}
+        <h1 id="homeuser">{{user.username}}</h1>
+    {% endif %}
+
 {% endblock %}

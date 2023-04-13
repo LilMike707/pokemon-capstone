@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block js %}
+  let likes = '{{like_ids}}'
+{% endblock %}
+
 {% block content %}
 <div>
     <div class="card-container">
