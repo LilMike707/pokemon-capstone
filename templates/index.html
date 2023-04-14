@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block js %}
-  let likes = '{{like_ids}}'
+  <!-- let likes = JSON.parse('{{likes}}'); -->
+  let likes = {{ like_ids|safe }};
 {% endblock %}
 
 {% block content %}

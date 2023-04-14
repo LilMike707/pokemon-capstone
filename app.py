@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, session, flash, request, jso
 # from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Like
 from forms import LoginForm, RegisterForm
-import requests, random
+import requests, random, json
 
 app = Flask(__name__)
 app.app_context().push()
@@ -99,6 +99,7 @@ def show_register():
 def show_likes(id):
     likes = Like.query.filter_by(user_id=id).all()
     like_ids = [like.card_id for like in likes]
+    json_likes = json.dumps(like_ids)
 
 
     cards = []
@@ -131,7 +132,7 @@ def show_likes(id):
             'price': price
         })
     
-    return render_template('liked.html', cards=cards, like_ids=like_ids)
+    return render_template('liked.html', cards=cards, like_ids=json_likes)
 
 
 def get_setlist():
@@ -177,6 +178,7 @@ def show_set(set_id):
         user_id = session['curr_user']
         likes = Like.query.filter_by(user_id=user_id).all()
         like_ids = [like.card_id for like in likes]
+        json_likes = json.dumps(like_ids)
 
 
     sets = get_setlist()
@@ -189,7 +191,7 @@ def show_set(set_id):
     for card in data:
         cards.append(card)
     random_cards = random.sample(cards, min(len(cards), 50))
-    return render_template('index.html', sets=sets, cards=random_cards, like_ids=like_ids)    
+    return render_template('index.html', sets=sets, cards=random_cards, like_ids=json_likes)    
 
 @app.route('/<int:id>')
 def show_user(id):

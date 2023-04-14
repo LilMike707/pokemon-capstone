@@ -32,6 +32,7 @@ $(document).ready(function () {
       let index = likes.indexOf(cardId);
       if (index !== -1) {
         console.log(likes);
+        console.log(typeof likes);
         likes.splice(index, 1);
       }
       $.ajax({
