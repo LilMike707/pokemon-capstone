@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, session, flash, request, jsonify
 # from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Like
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, UserEditForm
 import requests, random, json
 
 app = Flask(__name__)
@@ -63,7 +63,10 @@ def show_register():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        new_user = User.register(username, password)
+        profile_img = form.profile_img.data
+        email = form.email.data
+        about_me = form.about_me.data
+        new_user = User.register(username, password, profile_img, email, about_me)
 
         db.session.add(new_user)
         db.session.commit()
@@ -236,3 +239,20 @@ def logout():
     session.pop('curr_user', None)
     flash('You Logged Out!')
     return redirect('/home')
+
+
+@app.route('/<int:id>/edit', methods=['GET','POST'])
+def edit_user(id):
+    user = User.query.filter_by(id=id).first()
+    form = UserEditForm(obj=user)
+
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        user.profile_img = form.profile_img.data
+        user.about_me = form.about_me.data
+
+        db.session.commit()
+        return redirect(f'/{id}')
+
+    return render_template('edit_user.html', form=form, user=user)

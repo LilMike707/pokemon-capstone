@@ -14,17 +14,20 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
-    # image_url =  db.Column(db.Text)
+    profile_img = db.Column(db.Text, nullable=True)
+    email = db.Column(db.Text, nullable=False)
+    about_me = db.Column(db.Text, nullable=True)
+
 
     likes = db.relationship('Like', backref='user', lazy=True)
 
     @classmethod
-    def register(cls, username, password):
+    def register(cls, username, password, profile_img, email, about_me):
         hashed = bcrypt.generate_password_hash(password)
 
         hash_str = hashed.decode("utf8")
 
-        return cls(username=username, password=hash_str)
+        return cls(username=username, password=hash_str, profile_img=profile_img, email=email, about_me=about_me)
 
     @classmethod
     def authenticate(cls, username, password):

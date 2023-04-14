@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <img style="max-width:100px" src="https://w0.peakpx.com/wallpaper/1014/71/HD-wallpaper-pikachu-2018-flat-minimalist-pokemon-red-thumbnail.jpg" alt="">
+    <img src="{{user.profile_img}}" alt="">
     <h1>{{user.username}}</h1>
-    <p><a href="/{{user.id}}/likes">Liked Cards</a></p>
+    <div><p>{{user.about_me}}</p></div>
+    <div><p><a href="/{{user.id}}/likes">Liked Cards</a></p></div>
+    <div><p><a href="/{{user.id}}/edit">Edit Profile</a></p></div>
 {% endblock %}
