@@ -152,7 +152,7 @@ def get_setlist():
             'id':id,
             'name':name
         })
-    return sets[:14]
+    return sets[:24]
 
 
 def get_setlist_index():
@@ -164,7 +164,7 @@ def get_setlist_index():
     data = raw_data['data']
     for card_set in data:
         sets.append(card_set)
-    return sets[:14]
+    return sets[:24]
 
 @app.route('/index')
 def show_index():

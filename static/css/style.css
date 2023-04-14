@@ -1,4 +1,4 @@
-.card-container {
+/* .card-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -37,7 +37,55 @@
   max-height: 70%;
   object-fit: contain;
   margin-bottom: 10px;
+} */
+
+/* Card container */
+.card-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-left: 200px;
+  top: 150px;
 }
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 400px;
+  margin: 20px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-rarity {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card-price {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
 
 .like-button {
   position: absolute;
@@ -67,14 +115,42 @@
 }
 
 
+
+
+
+
+
+
 .sets-container {
-    display: flex;
-    justify-content: center;
-  }
-  
-.sets-container p {
-    margin: 0 10px;
-  }
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+
+
+.sets-container a {
+  text-decoration: none;
+  color: #333;
+  padding: 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.sets-container a:hover {
+  background-color: #ddd;
+}
+
+
+
+
+
+
+
+
+
 
 #hometitle {
     text-align: center;
@@ -87,6 +163,13 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 24px;
 }
+
+
+
+
+
+
+
 
 #navmain {
   display: flex;
@@ -110,6 +193,14 @@
 #navmain a:hover {
   color: #f00;
 }
+
+
+
+
+
+
+
+
 
 .sets {
   display: inline-block;
