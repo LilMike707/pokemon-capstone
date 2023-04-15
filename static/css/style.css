@@ -49,6 +49,16 @@
   top: 150px;
 }
 
+.liked-card-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* change this from 'flex-start' to 'center' */
+  margin-left: auto; /* remove margin-left */
+  margin-right: auto; /* remove margin-right */
+  top: 150px;
+}
+
 .card {
   position: relative;
   display: flex;

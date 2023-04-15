@@ -52,7 +52,8 @@ def show_login():
             flash('You Logged In!')
             return redirect('/home')
         else:
-            return redirect('/liked_cards')
+            flash('Incorrect Username or Password!')
+            return redirect('/login')
     return render_template('login.html', form=form)
 
 

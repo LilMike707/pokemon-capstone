@@ -4,6 +4,17 @@
 
 {% block content %}
 <h1>Login as Existing User</h1>
+
+<!-- {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %} -->
+
 <form method="POST">
     {{ form.hidden_tag() }} 
     
