@@ -16,8 +16,8 @@
 <body>
     <nav id="navmain">
         <a href="/home">Home</a>
-        <a href="/index">Set Index</a>
         {% if session['curr_user'] %}
+            <a href="/index">Set Index</a>
             <a href="/{{session['curr_user']}}">Profile</a>
             <a href="/logout">Logout</a>
         {% else %}

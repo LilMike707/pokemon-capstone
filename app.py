@@ -49,7 +49,6 @@ def show_login():
         user = User.authenticate(username, password)
         if user:
             session['curr_user'] = user.id
-            flash('You Logged In!')
             return redirect('/home')
         else:
             flash('Incorrect Username or Password!')
@@ -238,7 +237,6 @@ def delete_like():
 @app.route('/logout')
 def logout():
     session.pop('curr_user', None)
-    flash('You Logged Out!')
     return redirect('/home')
 
 
