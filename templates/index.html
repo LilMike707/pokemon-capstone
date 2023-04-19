@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block js %}
-  <!-- let likes = JSON.parse('{{likes}}'); -->
+  let likes = JSON.parse('{{likes}}');
   let likes = {{ like_ids|safe }};
 {% endblock %}
 
@@ -21,13 +21,14 @@
             {% else %}
             <div class="card-rarity">Common</div>
             {% endif %}
-            <!-- <div class="card-price">${{ card.cardmarket.prices.averageSellPrice }}</div> -->
-            <!-- <div class="card-price">${{ card.cardmarket.prices.averageSellPrice|float|round(3) }}</div> -->
-            <div class="card-price">${{ "{:.2f}".format(card.cardmarket.prices.averageSellPrice) }}</div>
+             <div class="card-price">${{ card.cardmarket.prices.averageSellPrice }}</div>
+             <div class="card-price">${{ card.cardmarket.prices.averageSellPrice|float|round(3) }}</div>
+             <div class="card-price">${{ "{:.2f}".format(card.cardmarket.prices.averageSellPrice) }}</div>
             <img src="{{ card.images.small }}" alt="">
             <div class="like-button"></div>
           </div>
         {% endfor %}
-      </div>
+       </div>
 </div>
-{% endblock %}
+ {% endblock %}
+
