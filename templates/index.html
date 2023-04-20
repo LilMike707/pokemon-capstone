@@ -5,15 +5,15 @@
 {% endblock %}
 
 {% block content %}
-<div class="sets-container">
+<div>
     {% for set in sets %}
       <p><a href="/index/{{set.id}}">{{set.name}}</a></p>
     {% endfor %}
-  </div>
-<div>
+</div>
+<div class="col-md-9">
     <div class="card-container">
         {% for card in cards %}
-          <div id="{{card.id}}" class="card">
+          <div id="{{card.id}}" class="mycard">
             <div class="card-name">{{ card.name }}</div>
             {% if card.rarity %}
             <div class="card-rarity">{{ card.rarity }}</div>
