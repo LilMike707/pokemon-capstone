@@ -27,7 +27,7 @@
   display: flex;
   flex-direction: column;
   width: 250px;
-  height: 400px;
+  height: 443px;
   margin: 20px;
   padding: 10px;
   background-color: #fff;
@@ -99,27 +99,22 @@
 /* This is my side bar */
 
 
-/* .sets-container {
+.sidebar-container {
   position: fixed;
-  top: 70px;
+  top: 75px; /* height of the navbar */
+  bottom: 0;
   left: 0;
-  right: 0;
-  z-index: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background-color: #f8f9fa;
+  z-index: 1000;
+  width: 250px; /* specify the width of the sidebar */
 }
 
-
-
-.sets-container a {
-  text-decoration: none;
-  color: #333;
-  padding: 0 10px;
-  font-size: 18px;
-  font-weight: bold;
+.sets {
+  margin-bottom: 10px;
+  width: 100%; /* make buttons full width inside the sidebar */
 }
-
-.sets-container a:hover {
-  background-color: #ddd;
-} */
 
 
 
@@ -173,6 +168,11 @@
   height: 75px;
   padding: 0 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001;
 }
 
 #navmain a {

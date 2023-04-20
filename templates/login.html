@@ -3,7 +3,8 @@
 
 
 {% block content %}
-<h1>Login as Existing User</h1>
+<div style="margin-top: 100px;">
+  <h1>Login as Existing User</h1>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -24,5 +25,6 @@
     {% endfor %}
     <button>Login!</button>
 </form> 
+</div>
 
 {% endblock %}
