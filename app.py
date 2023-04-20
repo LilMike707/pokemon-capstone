@@ -76,26 +76,6 @@ def show_register():
     return render_template('register.html', form=form)
 
 
-# @app.route('/<int:id>/likes')
-# def show_likes(id):
-#     likes = Like.query.filter_by(user_id=id).all()
-
-#     cards = []
-
-#     for like in likes:
-#         url = f'{BASE_URL}cards/{like.card_id}'
-#         headers = {'x-api-key':API_KEY}
-#         response = requests.get(url, headers=headers)
-#         raw_data = response.json()
-#         data = raw_data['data']
-#         cards.append({
-#             'id':data['id'],
-#             'name':data['name'],
-#             'image':data['images']['small'],
-#             'rarity':data['rarity'],
-#             'price': data['cardmarket']['prices']['averageSellPrice']
-# })
-#     return render_template('liked.html', cards=cards)
 
 
 @app.route('/<int:id>/likes')
@@ -193,7 +173,7 @@ def show_set(set_id):
     data = raw_data['data']
     for card in data:
         cards.append(card)
-    random_cards = random.sample(cards, min(len(cards), 50))
+    random_cards = random.sample(cards, min(len(cards), 100))
     return render_template('index.html', sets=sets, cards=random_cards, like_ids=json_likes)    
 
 @app.route('/<int:id>')
